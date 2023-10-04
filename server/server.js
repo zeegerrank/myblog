@@ -1,11 +1,27 @@
 require("dotenv").config();const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const db = mongoose;
+
+/**express middleware config */
+
+/**express middleware init*/
+app.use(express.json());
+
+/**third party middleware import*/
+const cors = require("cors");
+
+/**third party middleware config */
+
+/**third party middleware init*/
+app.use(cors());
 
 app.post("/", (req, res) => {
   return res.status(200).send("Hello World");
 });
+
+/**database and server init */
+
+const mongoose = require("mongoose");
+const db = mongoose;
 
 const DB_SECRET = process.env.DB_SECRET;
 const COLLECTION_NAME = "main";
