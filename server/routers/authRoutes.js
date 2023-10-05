@@ -1,8 +1,11 @@
-const express = require("express");const router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -34,13 +37,13 @@ router.post("/login", async (req, res) => {
   const { _id, roles } = user;
 
   /**create accessToken and set on cookies */
-  const accessToken = await jwt.sign({ _id, roles }, "secret_key", {
+  const accessToken = await jwt.sign({ _id, roles }, JWT_SECRET, {
     expiresIn: "5m",
   });
   res.cookie("accessToken", accessToken);
 
   /**create refreshToken and set on cookies, db */
-  const refreshToken = await jwt.sign({ _id }, "secret_key", {
+  const refreshToken = await jwt.sign({ _id }, JWT_SECRET, {
     expiresIn: "1h",
   });
   res.cookie("refreshToken", refreshToken);
@@ -54,7 +57,7 @@ router.post("/login", async (req, res) => {
 //**logout */
 router.post("logout", async (req, res) => {
   const { accessToken } = req.cookies;
-  const decode = await jwt.verify(accessToken, "secret_key");
+  const decode = await jwt.verify(accessToken, JWT_SECRET);
   if (!decode) {
     return res.status(400).send({ message: "Invalid token" });
   }
@@ -65,7 +68,7 @@ router.post("logout", async (req, res) => {
 //**refresh */
 router.post("refresh", async (req, res) => {
   const { refreshToken } = req.cookies;
-  const decode = await jwt.verify(refreshToken, "secret_key");
+  const decode = await jwt.verify(refreshToken, JWT_SECRET);
   if (!decode) {
     return res.status(400).send({ message: "Invalid token" });
   }
@@ -85,13 +88,13 @@ router.post("refresh", async (req, res) => {
   const { _id, roles } = user;
 
   /**create accessToken and set on cookies */
-  const accessToken = await jwt.sign({ _id, roles }, "secret_key", {
+  const accessToken = await jwt.sign({ _id, roles }, JWT_SECRET, {
     expiresIn: "5m",
   });
   res.cookie("accessToken", accessToken);
 
   /**create refreshToken and update on cookies, db */
-  const newRefreshToken = await jwt.sign({ _id }, "secret_key", {
+  const newRefreshToken = await jwt.sign({ _id }, JWT_SECRET, {
     expiresIn: "1h",
   });
   res.cookie("refreshToken", newRefreshToken);
