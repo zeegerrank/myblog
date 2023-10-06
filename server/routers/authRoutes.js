@@ -61,7 +61,8 @@ router.post("logout", async (req, res) => {
   if (!decode) {
     return res.status(400).send({ message: "Invalid token" });
   }
-  User.findOneAndDelete({ _id: user._id });
+  const user = await User.findById({ _id: decode._id });
+  await user.updateOne({ refreshToken: null });
   return res.status(203);
 });
 
@@ -79,10 +80,10 @@ router.post("refresh", async (req, res) => {
   }
 
   /**detect re-used refreshToken */
-  const listedToken = user.refreshToken === refreshToken;
-  if (!listedToken) {
-    user.deleteOne({ refreshToken });
-    return res.status(400).send({ message: "Re-used token" });
+
+  if (user.refreshToken !== refreshToken) {
+    user.updateOne({ refreshToken: null });
+    return res.status(400).send({ message: "Re-used token detected" });
   }
 
   const { _id, roles } = user;
