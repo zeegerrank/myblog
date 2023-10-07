@@ -57,11 +57,11 @@ router.post("/login", async (req, res) => {
 //**logout */
 router.post("logout", async (req, res) => {
   const { accessToken } = req.cookies;
-  const decode = await jwt.verify(accessToken, JWT_SECRET);
-  if (!decode) {
+  const decoded = await jwt.verify(accessToken, JWT_SECRET);
+  if (!decoded) {
     return res.status(400).send({ message: "Invalid token" });
   }
-  const user = await User.findById({ _id: decode._id });
+  const user = await User.findById({ _id: decoded._id });
   await user.updateOne({ refreshToken: null });
   return res.status(203);
 });
@@ -69,12 +69,12 @@ router.post("logout", async (req, res) => {
 //**refresh */
 router.post("refresh", async (req, res) => {
   const { refreshToken } = req.cookies;
-  const decode = await jwt.verify(refreshToken, JWT_SECRET);
-  if (!decode) {
+  const decoded = await jwt.verify(refreshToken, JWT_SECRET);
+  if (!decoded) {
     return res.status(400).send({ message: "Invalid token" });
   }
 
-  const user = User.findById(decode._id);
+  const user = User.findById(decoded._id);
   if (!user) {
     return res.status(404).send({ message: "User not found" });
   }

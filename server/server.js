@@ -56,7 +56,7 @@ db.connection.once("open", () => {
         console.log(`${roles[i]} is created`);
       }
     }
-    return console.log("Roles is initiated");
+    return console.log("Roles model is successfully initiated");
   };
 
   /**roles init */
