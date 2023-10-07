@@ -1,5 +1,4 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express");const router = express.Router();
 
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
@@ -7,6 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+//**register */
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const salt = 12;
@@ -21,6 +21,7 @@ router.post("/register", async (req, res) => {
   return res.status(200).send({ message: "Register succeeded", newUser });
 });
 
+//**login */
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   /**check user existence */
@@ -55,7 +56,7 @@ router.post("/login", async (req, res) => {
 });
 
 //**logout */
-router.post("logout", async (req, res) => {
+router.post("/logout", async (req, res) => {
   const { accessToken } = req.cookies;
   const decoded = await jwt.verify(accessToken, JWT_SECRET);
   if (!decoded) {
@@ -67,7 +68,7 @@ router.post("logout", async (req, res) => {
 });
 
 //**refresh */
-router.post("refresh", async (req, res) => {
+router.post("/refresh", async (req, res) => {
   const { refreshToken } = req.cookies;
   const decoded = await jwt.verify(refreshToken, JWT_SECRET);
   if (!decoded) {

@@ -23,9 +23,15 @@ const devLogStream = fs.createWriteStream("development.log", {
 app.use(cors());
 app.use(logger("dev", { stream: devLogStream }));
 
+//**routes */
 app.post("/", (req, res) => {
   return res.status(200).send("Hello World");
 });
+const authRoutes = require("./routers/authRoutes");
+app.use("/auth", authRoutes);
+
+const userRoutes = require("./routers/userRoutes");
+app.use("/user", userRoutes);
 
 /**database and server init */
 
