@@ -1,4 +1,5 @@
-require("dotenv").config();const express = require("express");
+require("dotenv").config();
+const express = require("express");
 const app = express();
 const Role = require("./models/Role.model");
 
@@ -10,28 +11,31 @@ app.use(express.json());
 /**third party middleware import*/
 const cors = require("cors");
 const logger = require("morgan");
-const fs = require("fs");
+const cookieParser = require("cookie-parser");
+const rfs = require("rotating-file-stream");
 const path = require("path");
 
 /**third party middleware config */
-const devLogStream = fs.createWriteStream("development.log", {
+const devLogStream = rfs.createStream("development.log", {
   interval: "1d" /*rotate daily */,
   path: path.join(__dirname, "log"),
 });
 
 /**third party middleware init*/
 app.use(cors());
-app.use(logger("dev", { stream: devLogStream }));
+app.use(cookieParser());
+app.use(logger("dev"));
+app.use(logger("combined", { stream: devLogStream }));
 
 //**routes */
-app.post("/", (req, res) => {
+app.get("/", (req, res) => {
   return res.status(200).send("Hello World");
 });
-const authRoutes = require("./routers/authRoutes");
-app.use("/auth", authRoutes);
+const authRoutes = require("./routers/api/auth.routes");
+app.use("/api/auth", authRoutes);
 
-const userRoutes = require("./routers/userRoutes");
-app.use("/user", userRoutes);
+const userRoutes = require("./routers/api/user.routes");
+app.use("/api/user", userRoutes);
 
 /**database and server init */
 

@@ -1,6 +1,6 @@
 const express = require("express");const router = express.Router();
 
-const User = require("../models/User.model");
+const User = require("../../models/User.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
   }
 
   /**check valid password */
-  const validPassword = await bcrypt.compareSync(password, user.get(password));
+  const validPassword = await bcrypt.compareSync(password, user.password);
   if (!validPassword) {
     return res.status(400).send({ message: "Password invalid" });
   }
@@ -48,42 +48,33 @@ router.post("/login", async (req, res) => {
     expiresIn: "1h",
   });
   res.cookie("refreshToken", refreshToken);
-  user.updateOne({ refreshToken });
+  await user.updateOne({ refreshToken });
 
   return res
     .status(200)
     .send({ message: "Login succeeded", accessToken, refreshToken });
 });
 
-//**logout */
-router.post("/logout", async (req, res) => {
-  const { accessToken } = req.cookies;
-  const decoded = await jwt.verify(accessToken, JWT_SECRET);
-  if (!decoded) {
-    return res.status(400).send({ message: "Invalid token" });
-  }
-  const user = await User.findById({ _id: decoded._id });
-  await user.updateOne({ refreshToken: null });
-  return res.status(203);
-});
-
 //**refresh */
 router.post("/refresh", async (req, res) => {
+  console.log("🚀 -> req.cookies:", req.cookies);
   const { refreshToken } = req.cookies;
+
   const decoded = await jwt.verify(refreshToken, JWT_SECRET);
   if (!decoded) {
     return res.status(400).send({ message: "Invalid token" });
   }
 
-  const user = User.findById(decoded._id);
+  const user = await User.findById(decoded._id);
   if (!user) {
     return res.status(404).send({ message: "User not found" });
   }
 
   /**detect re-used refreshToken */
 
+  console.log("🚀 -> user.refreshToken:", user.refreshToken);
   if (user.refreshToken !== refreshToken) {
-    user.updateOne({ refreshToken: null });
+    await user.updateOne({ refreshToken: null });
     return res.status(400).send({ message: "Re-used token detected" });
   }
 
@@ -100,7 +91,25 @@ router.post("/refresh", async (req, res) => {
     expiresIn: "1h",
   });
   res.cookie("refreshToken", newRefreshToken);
-  user.updateOne({ refreshToken });
+  await user.updateOne({ refreshToken: newRefreshToken });
+  return res
+    .status(200)
+    .send({ message: "Refresh token sent", newRefreshToken });
+});
+
+//**logout */
+router.post("/logout", async (req, res) => {
+  const { accessToken } = req.cookies;
+  const decoded = await jwt.verify(accessToken, JWT_SECRET);
+  if (!decoded) {
+    return res.status(400).send({ message: "Invalid token" });
+  }
+  const user = await User.findById({ _id: decoded._id });
+  await user.updateOne({ refreshToken: null });
+
+  const updatedUser = await User.findById({ _id: decoded._id });
+  const result = updatedUser.refreshToken;
+  return res.status(200).send({ result });
 });
 
 module.exports = router;

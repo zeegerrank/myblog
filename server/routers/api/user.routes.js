@@ -1,8 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/User.model");
+const express = require("express");const router = express.Router();
+const User = require("../../models/User.model");
 /**check admin middleware */
-const checkRoles = require("../middlewares/checkRoles");
+const checkRoles = require("../../middlewares/checkRoles");
 
 //**list all users */
 router.post("list", checkRoles(["admin", "moderator"]), async (req, res) => {
