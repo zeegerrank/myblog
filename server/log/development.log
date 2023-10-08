@@ -30,3 +30,5 @@
 ::1 - - [08/Oct/2023:15:29:15 +0000] "POST /api/auth/logout HTTP/1.1" 200 103 "-" "PostmanRuntime/7.32.3"
 ::1 - - [08/Oct/2023:15:31:28 +0000] "POST /api/auth/login HTTP/1.1" 200 423 "-" "PostmanRuntime/7.32.3"
 ::1 - - [08/Oct/2023:15:31:34 +0000] "POST /api/auth/logout HTTP/1.1" 200 185 "-" "PostmanRuntime/7.32.3"
+::1 - - [08/Oct/2023:15:33:08 +0000] "POST /api/auth/login HTTP/1.1" 200 423 "-" "PostmanRuntime/7.32.3"
+::1 - - [08/Oct/2023:15:33:14 +0000] "POST /api/auth/logout HTTP/1.1" 200 15 "-" "PostmanRuntime/7.32.3"
