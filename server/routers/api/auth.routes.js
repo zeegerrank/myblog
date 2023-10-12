@@ -1,8 +1,10 @@
 const express = require("express");const router = express.Router();
 
 const User = require("../../models/User.model");
+const Role = require("../../models/Role.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const checkRoles = require("../../middlewares/checkRoles");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -11,14 +13,19 @@ router.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const salt = 12;
   const hashedPassword = await bcrypt.hashSync(password, salt);
-
+  const defaultRole = await Role.findOne({ name: "user" });
   const newUser = new User({
     username,
     password: hashedPassword,
+    roles: [defaultRole._id],
   });
 
   newUser.save();
-  return res.status(200).send({ message: "Register succeeded", newUser });
+  return res.status(200).send({
+    message: "Register succeeded",
+    newUser,
+    defaultRole,
+  });
 });
 
 //**login */
