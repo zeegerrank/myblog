@@ -81,3 +81,5 @@
 ::1 - - [12/Oct/2023:09:46:41 +0000] "POST /api/user/list HTTP/1.1" 200 62 "-" "PostmanRuntime/7.33.0"
 ::1 - - [12/Oct/2023:09:57:44 +0000] "POST /api/user/list HTTP/1.1" 200 1322 "-" "PostmanRuntime/7.33.0"
 ::1 - - [12/Oct/2023:16:17:57 +0000] "POST /api/user/list HTTP/1.1" 200 1322 "-" "PostmanRuntime/7.33.0"
+::1 - - [12/Oct/2023:16:19:30 +0000] "POST /api/user/list HTTP/1.1" 200 1322 "-" "PostmanRuntime/7.33.0"
+::1 - - [12/Oct/2023:16:21:35 +0000] "DELETE /api/user/delete/6527c04b228f88520b6537e6 HTTP/1.1" 200 311 "-" "PostmanRuntime/7.33.0"

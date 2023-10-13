@@ -4,7 +4,6 @@ const User = require("../../models/User.model");
 const Role = require("../../models/Role.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const checkRoles = require("../../middlewares/checkRoles");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
