@@ -83,3 +83,8 @@
 ::1 - - [12/Oct/2023:16:17:57 +0000] "POST /api/user/list HTTP/1.1" 200 1322 "-" "PostmanRuntime/7.33.0"
 ::1 - - [12/Oct/2023:16:19:30 +0000] "POST /api/user/list HTTP/1.1" 200 1322 "-" "PostmanRuntime/7.33.0"
 ::1 - - [12/Oct/2023:16:21:35 +0000] "DELETE /api/user/delete/6527c04b228f88520b6537e6 HTTP/1.1" 200 311 "-" "PostmanRuntime/7.33.0"
+::1 - - [14/Oct/2023:02:38:17 +0000] "POST /api/auth/login HTTP/1.1" 200 493 "-" "PostmanRuntime/7.33.0"
+::1 - - [14/Oct/2023:02:44:13 +0000] "POST /api/auth/login HTTP/1.1" 200 493 "-" "PostmanRuntime/7.33.0"
+::1 - - [14/Oct/2023:02:45:11 +0000] "POST /api/auth/login HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+::1 - - [14/Oct/2023:02:45:22 +0000] "POST /api/auth/login HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+::1 - - [14/Oct/2023:02:46:05 +0000] "POST /api/auth/login HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
