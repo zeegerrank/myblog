@@ -1,5 +1,4 @@
-import { Nav, Navbar, Container } from "react-bootstrap";import Home from "../pages/Home";
-
+import { Nav, Navbar, Container } from "react-bootstrap";
 const AppNavbar = () => {
   return (
     <div>

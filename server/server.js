@@ -1,5 +1,4 @@
-require("dotenv").config();
-const express = require("express");
+require("dotenv").config();const express = require("express");
 const app = express();
 const Role = require("./models/Role.model");
 
@@ -22,7 +21,12 @@ const devLogStream = rfs.createStream("development.log", {
 });
 
 /**third party middleware init*/
-app.use(cors());
+app.use(
+  cors({
+    origins: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(logger("dev"));
 app.use(logger("combined", { stream: devLogStream }));

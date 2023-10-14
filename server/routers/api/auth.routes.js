@@ -47,13 +47,21 @@ router.post("/login", async (req, res) => {
   const accessToken = await jwt.sign({ _id, roles }, JWT_SECRET, {
     expiresIn: "5m",
   });
-  res.cookie("accessToken", accessToken);
+  res.cookie("accessToken", accessToken, {
+    maxAge: 3600000,
+    httpOnly: true,
+    secure: false, // Cookie is sent only over HTTPS
+  });
 
   /**create refreshToken and set on cookies, db */
   const refreshToken = await jwt.sign({ _id }, JWT_SECRET, {
     expiresIn: "1h",
   });
-  res.cookie("refreshToken", refreshToken);
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: 3600000,
+    httpOnly: true,
+    secure: false, // Cookie is sent only over HTTPS
+  });
   await user.updateOne({ refreshToken });
 
   return res

@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useState } from "react";
+import api from "../api";import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import FormBox from "../components/FormBox";
 const Login = () => {
@@ -10,11 +9,12 @@ const Login = () => {
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await axios.post("http://localhost:3500/api/auth/login", {
-      username,
-      password,
-    });
-    console.log(result);
+    try {
+      const result = await api.post("/auth/login", { username, password });
+      console.log(result.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div>
