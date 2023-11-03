@@ -11,9 +11,12 @@ const Login = () => {
     e.preventDefault();
     try {
       const result = await api.post("/auth/login", { username, password });
-      console.log(result.data);
+
+      console.log("🚀 -> result.data:", result.data);
+
+      console.log("🚀 -> result.headers:", result.headers);
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
   };
   return (

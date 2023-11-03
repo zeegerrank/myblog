@@ -1,4 +1,5 @@
-require("dotenv").config();const express = require("express");
+require("dotenv").config();
+const express = require("express");
 const app = express();
 const Role = require("./models/Role.model");
 
@@ -23,13 +24,25 @@ const devLogStream = rfs.createStream("development.log", {
 /**third party middleware init*/
 app.use(
   cors({
-    origins: "http://localhost:3000",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
 app.use(cookieParser());
 app.use(logger("dev"));
 app.use(logger("combined", { stream: devLogStream }));
+
+/**set headers */
+const Client = "http://localhost:3000";
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", Client);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 //**routes */
 app.get("/", (req, res) => {
